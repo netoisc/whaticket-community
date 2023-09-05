@@ -28,12 +28,6 @@ module.exports = {
       mediaUrl: {
         type: DataTypes.STRING
       },
-      userId: {
-        type: DataTypes.INTEGER,
-        references: { model: "Users", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL"
-      },
       ticketId: {
         type: DataTypes.INTEGER,
         references: { model: "Tickets", key: "id" },

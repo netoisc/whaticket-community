@@ -1,10 +1,10 @@
 import qrCode from "qrcode-terminal";
 import { Client, LocalAuth } from "whatsapp-web.js";
-import { getIO } from "./socket";
-import Whatsapp from "../models/Whatsapp";
 import AppError from "../errors/AppError";
-import { logger } from "../utils/logger";
+import Whatsapp from "../models/Whatsapp";
 import { handleMessage } from "../services/WbotServices/wbotMessageListener";
+import { logger } from "../utils/logger";
+import { getIO } from "./socket";
 
 interface Session extends Client {
   id?: number;
@@ -37,6 +37,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
     try {
       const io = getIO();
       const sessionName = whatsapp.name;
+      console.log('sessionName:', sessionName)
       let sessionCfg;
 
       if (whatsapp && whatsapp.session) {
@@ -48,8 +49,10 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
       const wbot: Session = new Client({
         session: sessionCfg,
         authStrategy: new LocalAuth({clientId: 'bd_'+whatsapp.id}),
+
         puppeteer: {
           executablePath: process.env.CHROME_BIN || undefined,
+          headless: true,
           // @ts-ignore
           browserWSEndpoint: process.env.CHROME_WS || undefined,
           args: args.split(' ')
@@ -59,7 +62,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
       wbot.initialize();
 
       wbot.on("qr", async qr => {
-        logger.info("Session:", sessionName);
+        logger.info("Session: %s", sessionName);
         qrCode.generate(qr, { small: true });
         await whatsapp.update({ qrcode: qr, status: "qrcode", retries: 0 });
 
@@ -75,7 +78,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
         });
       });
 
-      wbot.on("authenticated", async session => {
+      wbot.on("authenticated", async () => {
         logger.info(`Session: ${sessionName} AUTHENTICATED`);
       });
 
@@ -103,6 +106,7 @@ export const initWbot = async (whatsapp: Whatsapp): Promise<Session> => {
       });
 
       wbot.on("ready", async () => {
+        console.log("ready event");
         logger.info(`Session: ${sessionName} READY`);
 
         await whatsapp.update({
