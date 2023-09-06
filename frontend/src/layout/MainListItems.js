@@ -1,25 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
+import { Badge } from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import Divider from "@material-ui/core/Divider";
-import { Badge } from "@material-ui/core";
-import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
-import WhatsAppIcon from "@material-ui/icons/WhatsApp";
-import SyncAltIcon from "@material-ui/icons/SyncAlt";
-import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
-import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
-import ContactPhoneOutlinedIcon from "@material-ui/icons/ContactPhoneOutlined";
 import AccountTreeOutlinedIcon from "@material-ui/icons/AccountTreeOutlined";
+import ContactPhoneOutlinedIcon from "@material-ui/icons/ContactPhoneOutlined";
+import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
+import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import QuestionAnswerOutlinedIcon from "@material-ui/icons/QuestionAnswerOutlined";
+import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
+import SyncAltIcon from "@material-ui/icons/SyncAlt";
+import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 
-import { i18n } from "../translate/i18n";
-import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
-import { AuthContext } from "../context/Auth/AuthContext";
 import { Can } from "../components/Can";
+import { AuthContext } from "../context/Auth/AuthContext";
+import { WhatsAppsContext } from "../context/WhatsApp/WhatsAppsContext";
+import { i18n } from "../translate/i18n";
 
 function ListItemLink(props) {
   const { icon, primary, to, className } = props;
@@ -77,6 +77,10 @@ const MainListItems = (props) => {
         primary="Dashboard"
         icon={<DashboardOutlinedIcon />}
       />
+      <Can
+        role={user.profile}
+        perform="connections-page:view"
+        yes={() => (
       <ListItemLink
         to="/connections"
         primary={i18n.t("mainDrawer.listItems.connections")}
@@ -86,6 +90,7 @@ const MainListItems = (props) => {
           </Badge>
         }
       />
+        )} />
       <ListItemLink
         to="/tickets"
         primary={i18n.t("mainDrawer.listItems.tickets")}
