@@ -227,7 +227,7 @@ const messages = {
         },
       },
       ticketsQueueSelect: {
-        placeholder: "Linhas",
+        placeholder: "Colas",
       },
       tickets: {
         toasts: {
@@ -264,7 +264,7 @@ const messages = {
       ticketsList: {
         pendingHeader: "Cola",
         assignedHeader: "Trabajando en",
-        noTicketsTitle: "¡Nada acá!",
+        noTicketsTitle: "¡Sin tickets!",
         connectionTitle: "Conexión que se está utilizando actualmente.",
         noTicketsMessage:
           "No se encontraron tickets con este estado o término de búsqueda",
@@ -288,7 +288,7 @@ const messages = {
           tickets: "Tickets",
           contacts: "Contactos",
           quickAnswers: "Respuestas rápidas",
-          queues: "Linhas",
+          queues: "Colas",
           administration: "Administración",
           users: "Usuarios",
           settings: "Configuración",
@@ -304,7 +304,7 @@ const messages = {
         noTickets: "Sin notificaciones.",
       },
       queues: {
-        title: "Linhas",
+        title: "Colas",
         table: {
           name: "Nombre",
           color: "Color",
@@ -321,7 +321,7 @@ const messages = {
         },
       },
       queueSelect: {
-        inputLabel: "Linhas",
+        inputLabel: "Colas",
       },
       quickAnswers: {
         title: "Respuestas rápidas",
