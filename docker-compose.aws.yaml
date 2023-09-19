@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  backend:
+    image: public.ecr.aws/s2r9m6z3/wa-ticket-backend
+    restart: always
+    environment:
+      - DB_HOST=comunichat-dev-dbinstance.c2kpgua3cp83.us-west-2.rds.amazonaws.com
+      - DB_USER=comunichat
+      - DB_PASS=C0mun1chat
+      - DB_NAME=whaticket
+      - DB_PORT=5432
+      - DB_DIALECT=postgres
+      - JWT_SECRET=${JWT_SECRET:-3123123213123}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-75756756756}
+      - BACKEND_URL=whatsapp-web-api.comunichat.com
+      - FRONTEND_URL=https://whatsapp-web.comunichat.com
+      - PROXY_PORT=
+      - CHROME_ARGS=--no-sandbox --disable-setuid-sandbox
+    ports:
+      - ${BACKEND_PORT:-8080}:3000
+    volumes:
+      - ./backend/public/:/usr/src/app/public/
+      - ./backend/.wwebjs_auth/:/usr/src/app/.wwebjs_auth/
+
+  frontend:
+    image: public.ecr.aws/s2r9m6z3/wa-ticket-frontend
+    restart: always
+    environment:
+      - URL_BACKEND=backend:3000
+      - REACT_APP_BACKEND_URL=https://whatsapp-web-api.comunichat.com
+      - FRONTEND_SERVER_NAME=whatsapp-web.comunichat.com
+      - BACKEND_SERVER_NAME=whatapp-web-api.comunichat.com
+    ports:
+      - ${FRONTEND_PORT:-3000}:80
+    depends_on:
+      - backend
